@@ -1,5 +1,6 @@
 package android.intent.experiments.app
 
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,18 +19,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onSendBroadcastButtonClicked() {
-        val intent = Intent()
-        intent.action = "SomeBroadcastAction"
-        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
-        intent.`package` = "android.intent.experiments.app2"
+        val implicitIntent = Intent()
+        implicitIntent.action = "SomeBroadcastAction"
+        implicitIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
 
-        val resolveInfoList = packageManager.queryBroadcastReceivers(intent, 0)
+        val resolveInfoList = packageManager.queryBroadcastReceivers(implicitIntent, 0)
         val message = "Number of broadcast receivers that can handle the intent = ${resolveInfoList.size}"
 
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         Log.d(TAG, message)
 
-        sendBroadcast(intent)
+        // convert the implicit intent to explicit intents because Broadcast intents must be explicit
+        for (resolveInfo in resolveInfoList) {
+            val explicitIntent = Intent(implicitIntent)
+            val componentName = ComponentName(
+                resolveInfo.activityInfo.applicationInfo.packageName,
+                resolveInfo.activityInfo.name
+            )
+            explicitIntent.component = componentName
+            sendBroadcast(explicitIntent)
+        }
     }
 
     private fun onStartServiceButtonClicked() {
@@ -43,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         Log.d(TAG, message)
 
+        // this will throw an IllegalStateException if the application which matches the intent is in the background
         val result = startService(intent)
 
         if (result != null) {
