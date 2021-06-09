@@ -23,18 +23,18 @@
         android:id="@+id/sendBroadcastButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send Broadcast (with explicit intent)" />
+        android:text="Send Broadcast\n(with explicit intent)" />
 
     <Button
         android:id="@+id/startActivityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Activity (with implicit intent)" />
+        android:text="Start Activity\n(with implicit intent)" />
 
     <Button
         android:id="@+id/startServiceButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Service (with explicit package name)" />
+        android:text="Start Service\n(with semi-implicit intent)" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
