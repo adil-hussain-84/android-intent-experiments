@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "android.intent.experiments.app1"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 30
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         versionCode 1

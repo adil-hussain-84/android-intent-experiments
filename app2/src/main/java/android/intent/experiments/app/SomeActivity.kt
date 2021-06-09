@@ -8,5 +8,8 @@ class SomeActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.some_activity)
+
+        setActionBar(findViewById(R.id.toolbar))
+        actionBar?.setDisplayHomeAsUpEnabled(true)
     }
 }
