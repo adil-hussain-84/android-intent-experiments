@@ -11,9 +11,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_activity)
 
         findViewById<Button>(R.id.sendBroadcastButton).setOnClickListener { onSendBroadcastButtonClicked() }
+        findViewById<Button>(R.id.startActivityButton).setOnClickListener { onStartActivityButtonClicked() }
         findViewById<Button>(R.id.startServiceButton).setOnClickListener { onStartServiceButtonClicked() }
     }
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         implicitIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
 
         val resolveInfoList = packageManager.queryBroadcastReceivers(implicitIntent, 0)
-        val message = "Number of broadcast receivers that can handle the intent = ${resolveInfoList.size}"
+        val message = "Number of broadcast receivers that match the intent = ${resolveInfoList.size}"
 
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         Log.d(TAG, message)
@@ -33,12 +34,25 @@ class MainActivity : AppCompatActivity() {
         sendBroadcast(implicitIntent)
     }
 
+    private fun onStartActivityButtonClicked() {
+        val intent = Intent()
+        intent.action = "SomeActivityAction"
+
+        val resolveInfoList = packageManager.queryIntentActivities(intent, 0)
+        val message = "Number of activities that match the intent = ${resolveInfoList.size}"
+
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        Log.d(TAG, message)
+
+        startActivity(intent)
+    }
+
     private fun onStartServiceButtonClicked() {
         val intent = Intent()
         intent.action = "SomeServiceAction"
 
         val resolveInfoList = packageManager.queryIntentServices(intent, 0)
-        val message = "Number of services that can match the intent = ${resolveInfoList.size}"
+        val message = "Number of services that match the intent = ${resolveInfoList.size}"
 
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         Log.d(TAG, message)

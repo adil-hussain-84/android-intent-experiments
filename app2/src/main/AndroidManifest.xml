@@ -17,6 +17,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SomeActivity">
+            <intent-filter>
+                <action android:name="SomeActivityAction" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <receiver
             android:name=".SomeBroadcastReceiver"
             android:enabled="true"
