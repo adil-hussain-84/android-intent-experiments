@@ -18,24 +18,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onSendBroadcastButtonClicked() {
-        val intent = Intent()
-        intent.action = "SomeBroadcastAction"
-        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
-        intent.`package` = "android.intent.experiments.app2"
+        val implicitIntent = Intent()
+        implicitIntent.action = "SomeBroadcastAction"
+        implicitIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
 
-        val resolveInfoList = packageManager.queryBroadcastReceivers(intent, 0)
+        val resolveInfoList = packageManager.queryBroadcastReceivers(implicitIntent, 0)
         val message = "Number of broadcast receivers that can handle the intent = ${resolveInfoList.size}"
 
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         Log.d(TAG, message)
 
-        sendBroadcast(intent)
+        // the following broadcast will be blocked by Android because implicit Broadcast intents are not allowed;
+        // see 'MainActivity' in 'app1' for a workaround which converts the implicit intent into explicit intents
+        sendBroadcast(implicitIntent)
     }
 
     private fun onStartServiceButtonClicked() {
         val intent = Intent()
         intent.action = "SomeServiceAction"
-        intent.`package` = "android.intent.experiments.app2"
 
         val resolveInfoList = packageManager.queryIntentServices(intent, 0)
         val message = "Number of services that can match the intent = ${resolveInfoList.size}"
@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         Log.d(TAG, message)
 
+        // this will throw an IllegalStateException because implicit Service intents are not allowed
         val result = startService(intent)
 
         if (result != null) {
