@@ -1,0 +1,4 @@
+rootProject.name = "android-intent-experiments"
+
+include ':app1'
+include ':app2'
