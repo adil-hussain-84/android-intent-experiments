@@ -15,6 +15,8 @@ class SomeService : Service() {
 
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         Log.d("Foo", message)
+
+        stopSelf()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
