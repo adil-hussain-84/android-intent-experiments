@@ -2,6 +2,7 @@ package android.intent.experiments.app
 
 import android.app.Activity
 import android.os.Bundle
+import android.widget.TextView
 
 class SomeActivity : Activity() {
 
@@ -11,5 +12,7 @@ class SomeActivity : Activity() {
 
         setActionBar(findViewById(R.id.toolbar))
         actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        findViewById<TextView>(R.id.textView).text = "dataDir = ${dataDir}"
     }
 }
